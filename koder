@@ -1,0 +1,35 @@
+#!/bin/bash
+
+if [[ -z "$1" ]]; then
+    insults=(
+        "Even Todo would facepalm at this. At least give me a directory, you absolute disaster!"
+        "Megumi's shikigami have more sense than you. Pass a directory, idiot!"
+        "Gojo said 'limitless'... but your brain? That's just empty."
+        "Did you think I'd guess the directory? Even Yuji eats fingers before making this mistake!"
+        "Nobara would say 'ugly!' to this attempt. Give me a path, you disaster!"
+        "Sukuna would call you 'pathetic' for this. Now hand me a directory!"
+        "At least Nanami works overtime. You can't even type a path? Disappointing!"
+        "Even a cursed spirit knows better! Give me a directory, NOW!"
+        "My blindfold isn't for me—it's to give YOU a chance. Pass a directory!"
+        "You hold your heads quite high... considering how often you trip. Give me a path!"
+        "Stand proud. You are... definitely not smart enough to skip the argument!"
+        "Domain Expansion: Infinite Tech Noob. Even Mahito would be embarrassed by you!"
+        "Know your place, fool. That place is in front of a terminal with a directory!"
+    )
+    random_index=$((RANDOM % ${#insults[@]}))
+    echo "${insults[$random_index]}"
+    echo "Lmao noob exiting..."
+    exit 420
+fi
+
+toOpenDir=$(realpath "$1")
+sessionName=$(basename "$toOpenDir" | tr " " "_")
+
+tmux new-session -d -s "$sessionName" -n "opencode" -c "$toOpenDir"
+
+# open opencode in the first dir
+tmux send-keys -t "$sessionName" "opencode" Enter
+
+tmux new-window -n "editor" -t "$sessionName"
+
+tmux send-keys -t "${sessionName}:1" "vim ." Enter
