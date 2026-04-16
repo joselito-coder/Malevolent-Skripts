@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "Usage: ghdown <github-file-url>"
+    echo "Example: ghdown https://github.com/user/repo/blob/main/file.txt"
+    exit 1
+fi
+
+URL="$1"
+
+if [[ "$URL" == *github.com* ]]; then
+    if [[ "$URL" == */blob/* ]]; then
+        RAW_URL="${URL/blob\//}"
+        RAW_URL="${RAW_URL/github\.com/raw.githubusercontent.com}"
+    elif [[ "$URL" == */raw/* ]]; then
+        RAW_URL="$URL"
+    else
+        echo "Error: Not a valid GitHub file URL"
+        exit 1
+    fi
+
+    FILENAME=$(basename "$RAW_URL")
+    echo "Downloading $FILENAME..."
+    curl -fsSL "$RAW_URL" -o "$FILENAME"
+    echo "Saved as $FILENAME"
+else
+    echo "Error: Not a GitHub URL"
+    exit 1
+fi
