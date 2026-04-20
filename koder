@@ -25,6 +25,11 @@ fi
 toOpenDir=$(realpath "$1")
 sessionName=$(basename "$toOpenDir" | tr " " "_")
 
+if tmux has-session -t "${sessionName}" 2>/dev/null; then
+    tmux a -t "${sessionName}"
+    exit
+fi
+
 tmux new-session -d -s "$sessionName" -n "opencode" -c "$toOpenDir"
 
 # open opencode in the first dir
