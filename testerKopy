@@ -1,0 +1,6 @@
+#!/bin/bash
+
+testCase=$(xclip -o -selection clipboard | grep -i -o -P "CNT-[0-9]{1,}")
+
+echo "https://${TESTING}.atlassian.net/browse/${testCase}" | xclip -i -selection clipboard
+notify-send "test link copied to clipboard"
