@@ -37,4 +37,4 @@ tmux send-keys -t "$sessionName" "opencode" Enter
 
 tmux new-window -n "editor" -t "$sessionName"
 
-tmux send-keys -t "${sessionName}:1" "nvim ${toOpenDir}" Enter
+tmux send-keys -t "${sessionName}:1" "nvim ." Enter
